@@ -1,0 +1,10 @@
+database:
+  host: 
+  port: 
+  name: 
+  user: 
+  password:
+misc:
+  max_fail: 
+  concurrency: 
+  fail_callback: 
