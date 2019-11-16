@@ -1,11 +1,10 @@
-use pingana::settings::Settings;
+use pingana::env::Config;
 use pingana::run;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let settings = Settings::new()?;
+    let config = Config::new()?;
 
-    run(settings).await?;
+    run(config).await?;
     Ok(())
 }
-
