@@ -4,10 +4,12 @@ pub mod env;
 use futures::prelude::*;
 use futures::stream;
 use mysql_async::prelude::*;
+use log::{info};
 
 pub async fn run(config: env::Config) -> Result<(), Box<dyn std::error::Error>> {
     let db_pool = db::build_pool(&config);
-
+    
+    info!("fetching targets ...");
     let ping_targets = fetch_ping_targets(&db_pool, config.max_fails).await?;
 
     let fs = ping_targets
@@ -16,8 +18,13 @@ pub async fn run(config: env::Config) -> Result<(), Box<dyn std::error::Error>> 
 
     let buffered = stream::iter(fs).buffered(config.concurrency as usize);
 
+    info!("pinging {} targets ...", ping_targets.len());
     let ping_results: Vec<_> = buffered.collect().await;
 
+    let ok_count = ping_results.iter().filter(|res| res.is_ok()).count();
+    let failed_count = ping_results.len() - ok_count;
+
+    info!("updating targets [{} ok |{} failed] ...",ok_count,failed_count);
     for (target, res) in ping_targets.iter().zip(ping_results.into_iter()) {
         update_ping_target(&db_pool, target.id, res).await?;
     }

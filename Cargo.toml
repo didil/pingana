@@ -12,3 +12,5 @@ reqwest = "0.10.0-alpha.2"
 tokio = { version = "=0.2.0-alpha.6", default-features = false, features = ["rt-full"] }
 futures = "0.3"
 mysql_async = "0.21.0-alpha.4"
+log = "0.4.0"
+env_logger = "0.7.1"
