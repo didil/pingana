@@ -19,6 +19,16 @@ jobs:
       with:
           toolchain: stable
 
+    - name: Cache target
+      id: cache-target
+      uses: actions/cache@v1
+      with:
+        path: target/release
+        key: ${{ runner.os }}-target
+
+    # delete cached binary if found
+    - run: rm -f target/release/pingana
+
     - name: Build release
       uses: actions-rs/cargo@v1
       with:
@@ -26,7 +36,7 @@ jobs:
         args: --release --all-features
         toolchain: stable
     
-    - run: tar -czvf target/release/pingana.tar.gz target/release/pingana
+    - run: (cd target/release && tar -czvf pingana.tar.gz pingana)
 
     - name: Create Release
       id: create_release
