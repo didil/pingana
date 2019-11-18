@@ -1,6 +1,6 @@
 [package]
 name = "pingana"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["didil <1284255+didil@users.noreply.github.com>"]
 edition = "2018"
 
