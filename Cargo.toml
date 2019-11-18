@@ -1,6 +1,6 @@
 [package]
 name = "pingana"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["didil <1284255+didil@users.noreply.github.com>"]
 edition = "2018"
 
@@ -14,3 +14,4 @@ futures = "0.3"
 mysql_async = "0.21.0-alpha.4"
 log = "0.4.0"
 env_logger = "0.7.1"
+anyhow = "1.0.21"

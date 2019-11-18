@@ -1,6 +1,6 @@
 use dotenv::dotenv;
-use std::error::Error;
 use std::env;
+use anyhow::Result;
 
 #[derive(Debug)]
 pub struct Config {
@@ -9,13 +9,14 @@ pub struct Config {
     pub db_name: String,
     pub db_user: String,
     pub db_password: String,
+    pub db_table: String,
     pub max_fails: u8,
-    pub concurrency: u16,
+    pub concurrency: usize,
     pub fail_callback: String,
 }
 
 impl Config {
-    pub fn new() -> Result<Self, Box<dyn Error>> {
+    pub fn new() -> Result<Self> {
         dotenv()?;
        
         let db_host = env::var("DB_HOST")?;
@@ -23,6 +24,7 @@ impl Config {
         let db_name = env::var("DB_NAME")?;
         let db_user = env::var("DB_USER")?;
         let db_password = env::var("DB_PASSWORD")?;
+        let db_table = env::var("DB_TABLE")?;
         let max_fails = env::var("MAX_FAILS")?.parse()?;
         let concurrency = env::var("CONCURRENCY")?.parse()?;
         let fail_callback = env::var("FAIL_CALLBACK")?;
@@ -33,6 +35,7 @@ impl Config {
             db_name,
             db_user,
             db_password,
+            db_table,
             max_fails,
             concurrency,
             fail_callback,
